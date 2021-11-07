@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rovenhook.rsshool2021_android_task_musicapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name="com.rovenhook.rsshool2021_android_task_musicapp.utils.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

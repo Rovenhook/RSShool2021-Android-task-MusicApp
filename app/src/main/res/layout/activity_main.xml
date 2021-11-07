@@ -4,4 +4,146 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    android:layout_margin="10dp"
+    android:background="@drawable/app_background"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="214dp"
+        android:contentDescription="@string/description_track_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTrackInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/textview_track_info"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textViewTimingCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="current"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTiming"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTrackInfo" />
+
+    <TextView
+        android:id="@+id/textViewTiming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="max"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewTimingCurrent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTrackInfo" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/button_shape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTrackInfo" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar">
+
+        <Button
+            android:id="@+id/buttonPrev"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/button_marging"
+            android:background="@drawable/button_shape"
+            android:text="@string/button_prev"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/buttonPlay"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/button_marging"
+            android:background="@drawable/button_shape"
+            android:text="@string/button_play"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/buttonPause"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/button_marging"
+            android:background="@drawable/button_shape"
+            android:text="@string/button_pause"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/buttonStop"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/button_marging"
+            android:background="@drawable/button_shape"
+            android:text="@string/button_stop"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/buttonNext"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/button_marging"
+            android:background="@drawable/button_shape"
+            android:text="@string/button_next"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/textViewEvents"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:scrollbars="vertical">
+
+        <TextView
+            android:id="@+id/textViewListOfEVents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
