@@ -8,5 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#F681A9</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorButtonClick">#87ec69</color>
 
 </resources>

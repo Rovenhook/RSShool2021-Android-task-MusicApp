@@ -1,8 +1,11 @@
 package com.rovenhook.rsshool2021_android_task_musicapp.viewmodel
 
-import android.app.Application
+import android.app.Notification
+import android.app.PendingIntent
 import android.media.MediaPlayer
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +14,6 @@ import com.rovenhook.rsshool2021_android_task_musicapp.R
 import com.rovenhook.rsshool2021_android_task_musicapp.data.Track
 import com.rovenhook.rsshool2021_android_task_musicapp.data.TrackRepository
 import com.rovenhook.rsshool2021_android_task_musicapp.utils.MyApplication
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,7 @@ class TrackViewModel(
     private val currentTrack: MutableLiveData<Track> = MutableLiveData()
     private val currentPosition: MutableLiveData<Int> = MutableLiveData(0)
     private val listOfEVents: MutableLiveData<String> = MutableLiveData("")
-    private var isStopped: Boolean = false
+    private var isStopped: Boolean = true
 
     fun getCurrentTrack(): LiveData<Track> {
         tracks = trackRepository.getTracksList()
@@ -52,6 +54,7 @@ class TrackViewModel(
                 player.reset()
                 preparePlayer()
                 Log.e("log-tag", "Pressed play after stop")
+//                buildNotification()
             }
             player.start()
             isStopped = false
@@ -137,4 +140,18 @@ class TrackViewModel(
     fun getListOfPlayerEvents(): LiveData<String> {
         return listOfEVents
     }
+
+//    fun buildNotification() {
+//        val builder = NotificationCompat.Builder(MyApplication.getInstance(), MyApplication.CHANNEL_ID)
+//            .setSmallIcon(R.drawable.ic_launcher_background)
+//            .setContentTitle("textTitle")
+//            .setContentText("textContent")
+//            .setPriority(NotificationCompat.PRIORITY_MAX)
+//
+//
+//        val notification: Notification = builder.build()
+//        with(NotificationManagerCompat.from(MyApplication.getInstance())) {
+//            notify(1, notification)
+//        }
+//    }
 }

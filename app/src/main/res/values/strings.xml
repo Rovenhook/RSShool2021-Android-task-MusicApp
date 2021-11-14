@@ -7,4 +7,7 @@
     <string name="button_prev">Prev</string>
     <string name="textview_track_info">Track info</string>
     <string name="description_track_image">Track image</string>
+
+
+    <string name="notification_channel_name">Player controls</string>
 </resources>

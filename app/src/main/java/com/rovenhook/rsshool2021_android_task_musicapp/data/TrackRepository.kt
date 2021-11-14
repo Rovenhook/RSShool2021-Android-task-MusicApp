@@ -10,7 +10,10 @@ class TrackRepository {
     private val tracks: List<Track> get() = requireNotNull(_tracks)
     private val appContext = MyApplication.getInstance()
 
-    fun getTracksList(): List<Track> {
+    private var maxIndex: Int = 0
+    private var currentItemIndex = 0
+
+    init {
         try {
             val moshi = Moshi.Builder().build()
             val arrayType = Types.newParameterizedType(List::class.java, Track::class.java)
@@ -18,10 +21,25 @@ class TrackRepository {
             val file = "playlist.json"
             val myJson: String = appContext.assets.open(file).bufferedReader().use { it.readText() }
             _tracks = adapter.fromJson(myJson)!!
+            maxIndex = tracks.size - 1
         } catch (e: Exception) {
             e.printStackTrace()
-            return listOf()
         }
-        return tracks
     }
+
+    fun getNext(): Track {
+        if (currentItemIndex == maxIndex) currentItemIndex = 0 else currentItemIndex++
+        return getCurrent()
+    }
+
+    fun getPrevious(): Track {
+        if (currentItemIndex == 0) currentItemIndex = maxIndex else currentItemIndex--
+        return getCurrent()
+    }
+
+    fun getCurrent(): Track {
+        return tracks[currentItemIndex]
+    }
+
+    fun getTracksList() = tracks
 }
