@@ -23,7 +23,7 @@
             android:resource="@xml/automotive_app_desc" />
 
         <service
-            android:name=".MediaService"
+            android:name=".sevices.MediaService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />

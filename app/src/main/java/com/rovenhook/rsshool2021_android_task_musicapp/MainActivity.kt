@@ -10,17 +10,16 @@ import android.os.IBinder
 import android.os.RemoteException
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.rovenhook.rsshool2021_android_task_musicapp.databinding.ActivityMainBinding
-import com.rovenhook.rsshool2021_android_task_musicapp.viewmodel.TrackViewModel
+import com.rovenhook.rsshool2021_android_task_musicapp.sevices.MediaService
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: TrackViewModel by viewModels<TrackViewModel>()
+//    private val viewModel: TrackViewModel by viewModels<TrackViewModel>()
 
     private var mediaServiceBinder: MediaService.MediaServiceBinder? = null
     private var mediaController: MediaControllerCompat? = null
@@ -174,100 +173,3 @@ class MainActivity : AppCompatActivity() {
         private const val BUTTON_PREVIOUS = 5
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.translate_animation)
-//        binding.textViewTrackInfo.animation = animation
-//
-//        viewModel.getCurrentTrack().observe(this, Observer { track ->
-//            binding.imageView.load(track.bitmapUri)
-//            binding.textViewTrackInfo.text = String.format("%s - %s", track.artist, track.title)
-//            binding.textViewTiming.text =
-//                String.format(
-//                    "%d:%02d",
-//                    (track.duration / 1000 / 60),
-//                    ((track.duration / 1000) % 60)
-//                )
-//            binding.seekBar.setProgress(0)
-//            binding.seekBar.max = (track.duration / 1000).toInt()
-//            Log.e("log-tag", "seekbar max = ${binding.seekBar.max}")
-//        })
-//
-//        viewModel.getCurrentPosition().observe(this, Observer { progress ->
-//            binding.seekBar.setProgress(progress)
-//            binding.textViewTimingCurrent.text =
-//                String.format("%d:%02d /", (progress / 60), ((progress) % 60))
-//        })
-//
-//        viewModel.getListOfPlayerEvents().observe(this, Observer { text ->
-//            binding.textViewListOfEVents.text = text
-//        })
-//
-//        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-//                binding.seekBar.setProgress(progress)
-//                if (fromUser) {
-//                    binding.textViewTimingCurrent.text =
-//                        String.format("%d:%02d /", (progress / 60), ((progress) % 60))
-//                    viewModel.seekTo(progress)
-//                    Log.e("log-tag", "seekbar max = ${binding.seekBar.max}")
-//                    Log.e("log-tag", "seekbar progress = ${binding.seekBar.progress}")
-//                }
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-//            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-//        })
-//
-//        binding.buttonPlay.setOnClickListener {
-//            viewModel.start()
-//        }
-//        binding.buttonPause.setOnClickListener {
-//            viewModel.pause()
-//        }
-//        binding.buttonStop.setOnClickListener {
-//            viewModel.stop()
-//        }
-//        binding.buttonPrev.setOnClickListener {
-//            viewModel.previous()
-//        }
-//        binding.buttonNext.setOnClickListener {
-//            viewModel.next()
-//        }
-//    }
-//}

@@ -1,4 +1,4 @@
-package com.rovenhook.rsshool2021_android_task_musicapp
+package com.rovenhook.rsshool2021_android_task_musicapp.sevices
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -12,7 +12,7 @@ import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.media.browse.MediaBrowser.MediaItem.FLAG_PLAYABLE
+import android.media.browse.MediaBrowser.MediaItem.FLAG_PLAYABLE as FLAG_PL
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -47,6 +47,9 @@ import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvicto
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Clock
 import com.rovenhook.rsshool2021_android_task_musicapp.MainActivity
+import com.rovenhook.rsshool2021_android_task_musicapp.R
+import com.rovenhook.rsshool2021_android_task_musicapp.data.JsonTrack
+import com.rovenhook.rsshool2021_android_task_musicapp.data.TrackRepository
 import java.io.File
 
 class MediaService : MediaBrowserServiceCompat() {
@@ -62,12 +65,12 @@ class MediaService : MediaBrowserServiceCompat() {
     )
 
     private val metadataBuilder = MediaMetadataCompat.Builder()
-    private var _catalog: TestMusicCatalog? = null
-    private val musicCatalog: TestMusicCatalog by lazy { getMusicccCatalog() }
+    private var _catalog: TrackRepository? = null
+    private val musicCatalog: TrackRepository by lazy { getMusicCatalogue() }
 
-    private fun getMusicccCatalog(): TestMusicCatalog {
+    private fun getMusicCatalogue(): TrackRepository {
         return if (_catalog == null) {
-            val catalog = TestMusicCatalog(this.applicationContext)
+            val catalog = TrackRepository()
             _catalog = catalog
             catalog
         } else {
@@ -209,7 +212,7 @@ class MediaService : MediaBrowserServiceCompat() {
 
         for ((i, track) in musicCatalog.getTrackCatalog().withIndex()) {
             Log.i("TAG", "track = ${track.title}")
-            //val track = musicCatalog.getTrackByIndex(i)
+//            val track = musicCatalog.getTrackByIndex(i)
             val description = descriptionBuilder
                 .setDescription(track.artist)
                 .setTitle(track.title)
@@ -217,7 +220,7 @@ class MediaService : MediaBrowserServiceCompat() {
                 .setIconUri(Uri.parse(track.bitmapUri))
                 .setMediaId(i.toString())
                 .build()
-            data.add(MediaBrowserCompat.MediaItem(description, FLAG_PLAYABLE))
+            data.add(MediaBrowserCompat.MediaItem(description, FLAG_PL))
         }
         result.sendResult(data)
     }
@@ -312,7 +315,7 @@ class MediaService : MediaBrowserServiceCompat() {
             playTrack(musicCatalog.getTrackByIndex(Integer.parseInt(mediaId!!)))
         }
 
-        private fun playTrack(trackByIndex: TestMusicCatalog.JsonTrack) {
+        private fun playTrack(trackByIndex: JsonTrack) {
             if (!exoPlayer?.playWhenReady!!) {
                 startService(Intent(applicationContext, MediaService::class.java))
                 //val track = musicCatalog.currentTrack
@@ -453,7 +456,7 @@ class MediaService : MediaBrowserServiceCompat() {
             }
         }
 
-        private fun updateMetadataFromTrack(track: TestMusicCatalog.JsonTrack) {
+        private fun updateMetadataFromTrack(track: JsonTrack) {
             with(metadataBuilder) {
                 putBitmap(
                     MediaMetadataCompat.METADATA_KEY_ART,
@@ -587,7 +590,7 @@ class MediaService : MediaBrowserServiceCompat() {
                 .setMediaSession(mediaSession?.sessionToken)
         )
 
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.drawable.spin_wheel)
         builder.color = ContextCompat.getColor(this, R.color.colorPrimaryDark)
         builder.setShowWhen(false)
         builder.priority = PRIORITY_HIGH

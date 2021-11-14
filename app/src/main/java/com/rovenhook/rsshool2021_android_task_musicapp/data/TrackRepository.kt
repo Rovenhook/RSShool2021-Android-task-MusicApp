@@ -1,45 +1,75 @@
 package com.rovenhook.rsshool2021_android_task_musicapp.data
 
+import android.content.Context
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
 import com.rovenhook.rsshool2021_android_task_musicapp.utils.MyApplication
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import kotlinx.coroutines.*
 
-class TrackRepository {
-    private lateinit var _tracks: List<Track>
-    private val tracks: List<Track> get() = requireNotNull(_tracks)
-    private val appContext = MyApplication.getInstance()
-
-    private var maxIndex: Int = 0
-    private var currentItemIndex = 0
+class TrackRepository() {
 
     init {
-        try {
-            val moshi = Moshi.Builder().build()
-            val arrayType = Types.newParameterizedType(List::class.java, Track::class.java)
-            val adapter: JsonAdapter<List<Track>> = moshi.adapter(arrayType)
-            val file = "playlist.json"
-            val myJson: String = appContext.assets.open(file).bufferedReader().use { it.readText() }
-            _tracks = adapter.fromJson(myJson)!!
-            maxIndex = tracks.size - 1
-        } catch (e: Exception) {
-            e.printStackTrace()
+        setCatalogFromJson(MyApplication.getInstance())
+    }
+
+
+    val bitmaps = HashMap<String, Bitmap>(5)
+
+    private var _catalog: List<JsonTrack>? = null
+    private val catalog: List<JsonTrack> get() = requireNotNull(_catalog)
+
+    @DelicateCoroutinesApi
+    private fun setCatalogFromJson(context: Context) {
+        val moshi = Moshi.Builder().build()
+        val arrayType = Types.newParameterizedType(List::class.java, JsonTrack::class.java)
+        val adapter: JsonAdapter<List<JsonTrack>> = moshi.adapter(arrayType)
+        val file = "playlist.json"
+        val myJson = context.assets.open(file).bufferedReader().use { it.readText() }
+        _catalog = adapter.fromJson(myJson)
+
+        GlobalScope.launch(Dispatchers.Default) {
+            try {
+                _catalog?.forEach { track ->
+                    val bitmap =
+                        Glide.with(context).asBitmap().load(track.bitmapUri).into(200, 200).get()
+                }
+            } catch (e: Exception) {
+            }
         }
     }
 
-    fun getNext(): Track {
-        if (currentItemIndex == maxIndex) currentItemIndex = 0 else currentItemIndex++
-        return getCurrent()
+    val maxTrackIndex = catalog.size - 1
+    var currentTrackIndex = 0
+    val countTracks = catalog.size
+
+    var currentTrack = catalog[0]
+        get() = catalog[currentTrackIndex]
+        private set
+
+    fun next(): JsonTrack {
+        if (currentTrackIndex == maxTrackIndex) {
+            currentTrackIndex = 0
+        } else {
+            currentTrackIndex++
+        }
+        return currentTrack
     }
 
-    fun getPrevious(): Track {
-        if (currentItemIndex == 0) currentItemIndex = maxIndex else currentItemIndex--
-        return getCurrent()
+    fun previous(): JsonTrack {
+        if (currentTrackIndex == 0) {
+            currentTrackIndex = maxTrackIndex
+        } else {
+            currentTrackIndex--
+        }
+        return currentTrack
     }
 
-    fun getCurrent(): Track {
-        return tracks[currentItemIndex]
-    }
+    fun getTrackByIndex(index: Int) = catalog[index]
 
-    fun getTracksList() = tracks
+    fun getTrackCatalog() = catalog
+
 }
